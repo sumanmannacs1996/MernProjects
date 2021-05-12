@@ -141,7 +141,7 @@ router.put('/unlike/:post_id',auth, async (req,res)=>{
     }
 });
 
-// @route   POST api/posts/comment/:id
+// @route   POST api/posts/comment/:post_id
 // @desc    Comment on a post
 // @access  Private
 router.post('/comment/:post_id',[auth,[
@@ -164,6 +164,38 @@ router.post('/comment/:post_id',[auth,[
         await post.save();
         res.json(post.comments);
     }catch(err){
+        console.log(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// @route   DELEE api/posts/comment/:post_id/:comment_id
+// @desc    Like a post
+// @access  Private
+
+router.delete('/comment/:post_id/:comment_id',auth, async (req,res)=>{
+    try{
+        const post = await Post.findById(req.params.post_id);
+        if(!post){
+            return res.status(400).json({message:"Post not found"});
+        }
+        //get the index of the comment
+        const comment_Index = post.comments.findIndex(p=>p.id.toString() === req.params.comment_id);
+        //console.log(comment_Index);
+        if(comment_Index === -1){
+            return res.status(400).json({message:"Comment not found!"});
+        }
+        // Check if the comment added by the by same user
+       if(post.comments[comment_Index].user.toString() !== req.user.id){
+            return res.status(400).json({message:"You are not authorized to delete this comment"});
+        }
+        post.comments.splice(comment_Index,1); 
+        await post.save();
+        res.json(post.comments);
+    }catch(err){
+        if(err.kind ==='ObjectId'){
+            return res.status(400).json({message:"Post /Comment not found"});
+        }
         console.log(err.message);
         res.status(500).send("Server Error");
     }
