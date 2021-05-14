@@ -53,12 +53,12 @@ router.get('/:post_id',auth, async (req,res)=>{
     try{
         const post = await Post.findById(req.params.post_id);
         if(!post){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         res.json(post);
     }catch(err){
         if(err.kind ==='ObjectId'){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         console.log(err.message);
         res.status(500).send("Server Error");
@@ -72,16 +72,16 @@ router.delete('/:post_id',auth, async (req,res)=>{
     try{
         const post = await Post.findById(req.params.post_id);
         if(!post){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         if(post.user.toString() !== req.user.id){
-            return res.status(400).json({message:"You are not authorized to delete this post"});
+            return res.status(400).json({msg:"You are not authorized to delete this post"});
         }
         await Post.findByIdAndDelete(req.params.post_id);
         res.json({message:"Post Deleted"});
     }catch(err){
         if(err.kind ==='ObjectId'){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         console.log(err.message);
         res.status(500).send("Server Error");
@@ -96,18 +96,18 @@ router.put('/like/:post_id',auth, async (req,res)=>{
     try{
         const post = await Post.findById(req.params.post_id);
         if(!post){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         // Check if the post already been liked by the user
         if(post.likes.filter(p=>p.user.toString() === req.user.id).length > 0){
-            return res.status(400).json({message:"Post already liked"});
+            return res.status(400).json({msg:"Post already liked"});
         }
         post.likes.unshift({user:req.user.id});
         await post.save();
         res.json(post.likes);
     }catch(err){
         if(err.kind ==='ObjectId'){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         console.log(err.message);
         res.status(500).send("Server Error");
@@ -122,19 +122,19 @@ router.put('/unlike/:post_id',auth, async (req,res)=>{
     try{
         const post = await Post.findById(req.params.post_id);
         if(!post){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         // Check if the post already been liked by the user
         const index = post.likes.findIndex(p=>p.user.toString() === req.user.id);
         if(index === -1){
-            return res.status(400).json({message:"Post has not yet been liked"});
+            return res.status(400).json({msg:"Post has not yet been liked"});
         }
         post.likes.splice(index,1); 
         await post.save();
         res.json(post.likes);
     }catch(err){
         if(err.kind ==='ObjectId'){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         console.log(err.message);
         res.status(500).send("Server Error");
@@ -177,24 +177,24 @@ router.delete('/comment/:post_id/:comment_id',auth, async (req,res)=>{
     try{
         const post = await Post.findById(req.params.post_id);
         if(!post){
-            return res.status(400).json({message:"Post not found"});
+            return res.status(400).json({msg:"Post not found"});
         }
         //get the index of the comment
         const comment_Index = post.comments.findIndex(p=>p.id.toString() === req.params.comment_id);
         //console.log(comment_Index);
         if(comment_Index === -1){
-            return res.status(400).json({message:"Comment not found!"});
+            return res.status(400).json({msg:"Comment not found!"});
         }
         // Check if the comment added by the by same user
        if(post.comments[comment_Index].user.toString() !== req.user.id){
-            return res.status(400).json({message:"You are not authorized to delete this comment"});
+            return res.status(400).json({msg:"You are not authorized to delete this comment"});
         }
         post.comments.splice(comment_Index,1); 
         await post.save();
         res.json(post.comments);
     }catch(err){
         if(err.kind ==='ObjectId'){
-            return res.status(400).json({message:"Post /Comment not found"});
+            return res.status(400).json({msg:"Post /Comment not found"});
         }
         console.log(err.message);
         res.status(500).send("Server Error");
