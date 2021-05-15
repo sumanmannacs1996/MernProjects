@@ -1,4 +1,4 @@
-import React ,{Fragment} from 'react';
+import React ,{Fragment,useEffect} from 'react';
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import './App.css';
 import Navbar from './components/layouts/Navbar';
@@ -6,8 +6,13 @@ import Landing from './components/layouts/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layouts/Alert';
-
-function App() {
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux';
+import {loadUser} from './actions/auth';
+function App(props) {
+  useEffect(()=>{
+    props.loadUser();
+  },[])
   return (
     <BrowserRouter>
       <Fragment>
@@ -24,5 +29,7 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
+App.propTypes={
+  loadUser:PropTypes.func.isRequired,
+}
+export default connect(null,{loadUser})(App);

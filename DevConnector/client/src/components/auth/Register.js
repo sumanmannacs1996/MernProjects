@@ -22,6 +22,7 @@ const Register = (props) => {
         }
         else{
             ///console.log(formData);
+            // calling action reducer to send data
             props.register({name,email,password});
         }
     }
