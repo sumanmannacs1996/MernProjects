@@ -36,12 +36,12 @@ router.post('/',[
         // Check if user exists with the given email
         let user = await User.findOne({email});
         if(!user){
-           return res.status(400).json({errors:[{message:"User not found"}]});
+           return res.status(400).json({errors:[{msg:"User not found"}]});
         }
        // Match the credential
         const isMatch = await bcript.compare(password,user.password);
         if(!isMatch){
-            return res.status(400).json({errors:[{message:"Invalid credentilas"}]});
+            return res.status(400).json({errors:[{msg:"Invalid credentilas"}]});
          }
 
         // Return jsowebtoken

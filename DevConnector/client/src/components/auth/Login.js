@@ -1,6 +1,10 @@
 import React, { Fragment, useState} from 'react'
 import {Link} from 'react-router-dom'
-const Register = () => {
+import {connect} from 'react-redux';
+import {login} from '../../actions/auth';
+import PropTypes from 'prop-types'
+
+const Login = (props) => {
     const [formData,setFormData] = useState({
         email:'',
         password:''
@@ -11,7 +15,9 @@ const Register = () => {
     }
     const submitHandler=(e)=>{
         e.preventDefault();
-        console.log("Success");
+        //console.log("Success");
+        //calling acction for login
+        props.login({email,password});
     }
 
     return (
@@ -45,5 +51,7 @@ const Register = () => {
     </Fragment>
     )
 }
-
-export default Register
+Login.propTypes={
+  login:PropTypes.func.isRequired,
+}
+export default connect(null,{login})(Login);
