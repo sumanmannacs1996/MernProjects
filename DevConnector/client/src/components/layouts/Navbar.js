@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logout} from '../../actions/auth';
 import PropTypes from 'prop-types'
 
 const Navbar = (props) => {
-    console.log(props.auth.isAuthenticated);
-
     const authLinks =(
         <ul>
             <li>
@@ -28,7 +26,7 @@ const Navbar = (props) => {
     return (
         <nav className="navbar bg-dark">
             <h1>
-                <Link to="index.html"><i className="fas fa-code"></i> DevConnector</Link>
+                <Link to="/"><i className="fas fa-code"></i> DevConnector</Link>
             </h1>
             {!props.auth.loading && 
             <Fragment>

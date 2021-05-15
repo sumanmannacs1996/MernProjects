@@ -9,6 +9,8 @@ import Alert from './components/layouts/Alert';
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import {loadUser} from './actions/auth';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
 function App(props) {
   useEffect(()=>{
     props.loadUser();
@@ -23,6 +25,7 @@ function App(props) {
           <Switch>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/register' component={Register}/>
+            <PrivateRoute exact path='/dashboard' component={Dashboard} />
           </Switch>
         </section>
       </Fragment>
