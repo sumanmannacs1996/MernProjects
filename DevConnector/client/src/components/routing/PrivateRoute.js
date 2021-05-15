@@ -3,7 +3,6 @@ import {useHistory,Route} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 const PrivateRoute = ({component: Component, auth, ...rest}) => {
-    console.log(auth.isAuthenticated,auth.loading);
     const history = useHistory();
     return(
         <Route
