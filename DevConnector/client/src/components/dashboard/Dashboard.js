@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 import DashboardAction from './DashboardAction';
 import Experience from '../dashboard/Experience';
 import Education from '../dashboard/Education';
-
+import {deleteAccount} from '../../actions/profile';
 const Dashboard = props => {
 
     useEffect(()=>{
@@ -27,6 +27,11 @@ const Dashboard = props => {
             <DashboardAction/>
             <Experience experience={props.profile.profile.experience}/>
             <Education education={props.profile.profile.education} />
+            <div className='my-2'>
+                <button className='btn btn-danger' onClick={()=>props.deleteAccount()}>
+                    <i className='fas fa-user-minus'>Delete My Account</i>
+                    </button>
+            </div>
         </Fragment>) :
         (<Fragment>
             <p>You have not yet setup a profile, please add some info</p>
@@ -40,9 +45,10 @@ const Dashboard = props => {
 Dashboard.propTypes = {
     auth:PropTypes.object.isRequired,
     getCurrentProfile:PropTypes.func.isRequired,
+    deleteAccount:PropTypes.func.isRequired,
 }
 const mapStateToProps =state=>({
     auth:state.auth,
     profile:state.profile
 })
-export default connect(mapStateToProps,{getCurrentProfile})(Dashboard);
+export default connect(mapStateToProps,{getCurrentProfile,deleteAccount})(Dashboard);
