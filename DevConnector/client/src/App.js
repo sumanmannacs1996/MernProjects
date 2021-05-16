@@ -16,7 +16,6 @@ import EditProfile from './components/profile-forms/EditProfile';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 
-
 function App(props) {
   useEffect(()=>{
     props.loadUser();
