@@ -1,9 +1,9 @@
-import React,{Fragment, useState} from 'react'
+import React,{Fragment, useState,useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link,withRouter} from 'react-router-dom'
-import {createProfile} from '../../actions/profile';
-const CreateProfile = ({createProfile,history}) => {
+import {createProfile,getCurrentProfile} from '../../actions/profile';
+const EditProfile = ({profile:{profile,loading},createProfile,getCurrentProfile,history}) => {
     const [formData,setFormData] = useState({
         company:'',
         website:'',
@@ -18,7 +18,7 @@ const CreateProfile = ({createProfile,history}) => {
         linkedin:'',
         instagram:''
     });
-    const[displaySocialInputs,toggleSocialInputs] = useState(false);
+    const[displaySocialInputs,toggleSocialInputs] = useState(true);
     const {
         company,
         website,
@@ -31,15 +31,32 @@ const CreateProfile = ({createProfile,history}) => {
         twiter,
         facebook,
         linkedin,
-        instagram,
+        instagram
     } = formData;
 
     const onChange =(e)=>setFormData({...formData,[e.target.name]:e.target.value});
 
     const submitHandler=(event)=>{
         event.preventDefault();
-        createProfile(formData,history)
+        createProfile(formData,history,true);
     }
+    useEffect(()=>{
+        getCurrentProfile();
+        setFormData({
+            company: loading || !profile.company ? '' : profile.company,
+            website: loading || !profile.website ? '' : profile.website,
+            location: loading || !profile.location ? '' : profile.location,
+            status: loading || !profile.status ? '' : profile.status,
+            skills: loading || !profile.skills ? '' : profile.skills.join(','),
+            bio: loading || !profile.bio ? '' : profile.bio,
+            githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
+            youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
+            twiter: loading || !profile.social.twiter ? '' : profile.social.twiter,
+            facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
+            linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
+            instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
+        })
+    },[loading]);
 
     return (
     <Fragment>
@@ -149,8 +166,14 @@ const CreateProfile = ({createProfile,history}) => {
     )
 }
 
-CreateProfile.propTypes = {
-    createProfile:PropTypes.func.isRequired
+EditProfile.propTypes = {
+    createProfile:PropTypes.func.isRequired,
+    getCurrentProfile:PropTypes.func.isRequired,
+    profile:PropTypes.object.isRequired
 }
 
-export default connect(null,{createProfile})(withRouter(CreateProfile));
+const mapStateToProps = state=>({
+    profile:state.profile
+})
+
+export default connect(mapStateToProps,{createProfile,getCurrentProfile})(withRouter(EditProfile));
