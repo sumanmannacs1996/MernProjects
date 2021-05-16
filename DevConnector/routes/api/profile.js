@@ -147,8 +147,8 @@ router.delete('/',auth, async (req,res)=>{
 // @access  private
 
 router.put('/experience', [auth,[
-    check('title','Tile is required').not().isEmpty(),
-    check('company', ' Company is required').not().isEmpty(),
+    check('title','Title is required').not().isEmpty(),
+    check('company', ' Company name is required').not().isEmpty(),
     check('from', 'From date is required').not().isEmpty()
 ]], async (req,res)=>{
     const errors = validationResult(req);
