@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {loadUser} from './actions/auth';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
+import CreateProfile from './components/profile-forms/CreateProfile';
 function App(props) {
   useEffect(()=>{
     props.loadUser();
@@ -26,6 +27,7 @@ function App(props) {
             <Route exact path='/login' component={Login}/>
             <Route exact path='/register' component={Register}/>
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
+            <PrivateRoute exact path='/create-profile' component={CreateProfile} />
           </Switch>
         </section>
       </Fragment>

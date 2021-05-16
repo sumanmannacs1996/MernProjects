@@ -29,15 +29,12 @@ const Dashboard = props => {
         }
     </Fragment>
 }
-
 Dashboard.propTypes = {
     auth:PropTypes.object.isRequired,
     getCurrentProfile:PropTypes.func.isRequired,
 }
-
 const mapStateToProps =state=>({
     auth:state.auth,
     profile:state.profile
 })
-
 export default connect(mapStateToProps,{getCurrentProfile})(Dashboard);
