@@ -18,7 +18,7 @@ const EditProfile = ({profile:{profile,loading},createProfile,getCurrentProfile,
         linkedin:'',
         instagram:''
     });
-    const[displaySocialInputs,toggleSocialInputs] = useState(true);
+    const[displaySocialInputs,toggleSocialInputs] = useState(false);
     const {
         company,
         website,
