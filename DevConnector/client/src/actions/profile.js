@@ -217,7 +217,7 @@ export const deleteAccount =()=> async dispatch=>{
     // calling setAuthToken to set the token in request header 
     setAuthToken(token);
         try{
-            const res = await axios.delete(`/api/profile`);
+            await axios.delete(`/api/profile`);
 
             // Clear profile
             dispatch({type:CLEAR_PROFILE});
