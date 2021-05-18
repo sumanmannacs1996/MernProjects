@@ -8,27 +8,27 @@ import DashboardAction from './DashboardAction';
 import Experience from '../dashboard/Experience';
 import Education from '../dashboard/Education';
 import {deleteAccount} from '../../actions/profile';
-const Dashboard = props => {
+const Dashboard = ({getCurrentProfile,deleteAccount,auth,profile}) => {
 
     useEffect(()=>{
-        props.getCurrentProfile();
-    },[]);
+        getCurrentProfile();
+    },[getCurrentProfile]);
 
-    let user = props.auth.user
+    let user = auth.user
 
-    return props.profile.loading &&  props.profile.profile===null ? <Spinner/> : 
+    return profile.loading &&  profile.profile===null ? <Spinner/> : 
     <Fragment>
         <h1 className='large text-primary'>Dashboard</h1>
         <p className='lead'>
             <i className='fas fa-user'>Welcome {user && user.name}</i>
         </p>
-        {props.profile.profile !== null ?(
+        {profile.profile !== null ?(
         <Fragment>
             <DashboardAction/>
-            <Experience experience={props.profile.profile.experience}/>
-            <Education education={props.profile.profile.education} />
+            <Experience experience={profile.profile.experience}/>
+            <Education education={profile.profile.education} />
             <div className='my-2'>
-                <button className='btn btn-danger' onClick={()=>props.deleteAccount()}>
+                <button className='btn btn-danger' onClick={()=>deleteAccount()}>
                     <i className='fas fa-user-minus'>Delete My Account</i>
                     </button>
             </div>
