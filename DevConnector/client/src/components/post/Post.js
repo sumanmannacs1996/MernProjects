@@ -6,6 +6,7 @@ import Spinner from '../layouts/Spinner';
 import PostItem from '../posts/PostItem';
 import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
+import CommentItem from './CommentItem';
 const Post = ({getPostById,post:{post,loading},match}) => {
 
     useEffect(()=>{
@@ -19,6 +20,12 @@ const Post = ({getPostById,post:{post,loading},match}) => {
                         <Link to='/posts'className='btn'>Back To Post</Link>
                         <PostItem showAction={false} post={post}/>
                         <CommentForm postId={post._id}/>
+                        <div className='comments'>
+                            {post.comments.map(p=>(
+                                <CommentItem key={p._id} comment={p} postId={post._id}/>
+                            ))}
+
+                        </div>
                     </Fragment>
                 )
             }
