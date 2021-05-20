@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux';
 import Spinner from '../layouts/Spinner';
 import {getGitRepos} from '../../actions/profile';
-const ProfileGithub = ({getGitRepos,username,repos}) => {
-
+const ProfileGithub = ({getGitRepos,username,repos,loading}) => {
+    console.log(username);
     useEffect(()=>{
         getGitRepos(username);
     },[getGitRepos]);
@@ -13,10 +13,10 @@ const ProfileGithub = ({getGitRepos,username,repos}) => {
         <div className='profile-gitgub'>
             <h2 className='text-primary my-1'>Github Repos</h2>
             {
-                repos === null ? <Spinner /> :
+                (repos === null && loading)  ? <Spinner /> :
                 (
-                    repos.map(p=>(
-                        <div key={p._id} className='repo bg-white p-1 my-1'>
+                    repos.map((p,index)=>(
+                        <div key={index} className='repo bg-white p-1 my-1'>
                             <div>
                                 <h4>
                                     <a href={p.html_url} target='_blank' rel='noopener noreferrer'>{p.name}</a>
@@ -48,9 +48,11 @@ ProfileGithub.propTypes = {
     getGitRepos:PropTypes.func.isRequired,
     repos:PropTypes.array.isRequired,
     username:PropTypes.string.isRequired,
+    loading:PropTypes.bool.isRequired,
 }
 const mapStateToProps = state =>({
-    repos:state.profile.repos
+    repos:state.profile.repos,
+    loading:state.profile.loading
 })
 
 export default connect(mapStateToProps,{getGitRepos})(ProfileGithub);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {setAlert} from './alert';
-import {GET_PROFILE,PROFILE_ERROR,UPDATE_PROFILE,ACCOUNT_DELETED, CLEAR_PROFILE,GET_PROFILES,GET_REPOS} from './types';
+import {GET_PROFILE,PROFILE_ERROR,UPDATE_PROFILE,ACCOUNT_DELETED, CLEAR_PROFILE,GET_PROFILES,GET_REPOS,CLEAR_REPOS} from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 // Get current user profile
@@ -243,18 +243,24 @@ export const deleteAccount =()=> async dispatch=>{
 export const getGitRepos = (username)=> async dispatch=>{
     try{
         const res = await axios(`/api/profile/github/${username}`);
+        // Clearing reposs first 
+        dispatch({
+            type:CLEAR_REPOS
+        });
+        // Getting repos
         dispatch({
             type:GET_REPOS,
             payload:res.data
         });
     }catch(err){
         const errors = err.response.data.errors;
-        if(errors){
-            errors.forEach(p => dispatch(setAlert(p.msg, 'danger')));
+        if(err){
+           // dispatch(setAlert(),'dark');
+            dispatch(setAlert(`"${username}" no such git reposatry exists`,'dark'));
         }
-        dispatch({
-            type:PROFILE_ERROR,
+       /* dispatch({
+            type:REPO_ERROR,
             payload:{msg:err.response.statusText, status:err.response.status}
-        })
+        })*/
     }
 }
