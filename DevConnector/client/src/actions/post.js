@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {setAlert} from './alert';
-import {GET_POST,POST_ERROR,UPDATE_LIKES,DELETE_POST,ADD_POST} from './types';
+import {GET_POST,POST_ERROR,UPDATE_LIKES,DELETE_POST,ADD_POST,GET_POSTS} from './types';
 import setAuthToken from '../utils/setAuthToken';
 
 //Get posts
@@ -10,6 +10,25 @@ export const getPosts =() =>async dispatch=>{
     setAuthToken(token);
     try{
         const res = await axios.get('/api/posts');
+        dispatch({
+            type:GET_POSTS,
+            payload:res.data
+        })
+    }catch(err){
+        dispatch({
+            type:POST_ERROR,
+            payload:{msg:err.response.statusText, status:err.response.status}
+        })
+    }
+}
+
+//Get post By id
+export const getPostById =(postId) =>async dispatch=>{
+    // calling setAuthToken to set the token in request header 
+    const token = localStorage.token;
+    setAuthToken(token);
+    try{
+        const res = await axios.get(`/api/posts/${postId}`);
         dispatch({
             type:GET_POST,
             payload:res.data
