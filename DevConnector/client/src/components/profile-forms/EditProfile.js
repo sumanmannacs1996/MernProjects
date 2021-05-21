@@ -50,11 +50,11 @@ const EditProfile = ({profile:{profile,loading},createProfile,getCurrentProfile,
             skills: loading || !profile.skills ? '' : profile.skills.join(','),
             bio: loading || !profile.bio ? '' : profile.bio,
             githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
-            youtube: loading || !profile.social.youtube ? '' : profile.social.youtube,
-            twiter: loading || !profile.social.twiter ? '' : profile.social.twiter,
-            facebook: loading || !profile.social.facebook ? '' : profile.social.facebook,
-            linkedin: loading || !profile.social.linkedin ? '' : profile.social.linkedin,
-            instagram: loading || !profile.social.instagram ? '' : profile.social.instagram,
+            youtube: loading || !profile.social|| !profile.social.youtube ? '' : profile.social.youtube,
+            twiter: loading || !profile.social ||  !profile.social.twiter ? '' : profile.social.twiter,
+            facebook: loading || !profile.social || !profile.social.facebook ? '' : profile.social.facebook,
+            linkedin: loading || !profile.social || !profile.social.linkedin ? '' : profile.social.linkedin,
+            instagram: loading || !profile.social || !profile.social.instagram ? '' : profile.social.instagram,
         })
     },[loading]);
 
